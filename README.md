@@ -50,6 +50,16 @@ Main components
 - `UserQuery` — simple record DTO for controller requests.
 
 
+### Deployment 
+
+```docker
+
+docker image pull saurabhaga/spring-ai-agent:latest
+
+docker container run -p 8080:8080  -e REDIS_HOST="REDIS-PORT" 
+-e GITHUB-API-KEY="xxxx" -e MISTRAL-API-KEY="yyyy" saurabhaga/spring-ai-agent:latest
+``
+`
 ### Sample Requests
 
 - Ingest a PDF document:

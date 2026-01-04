@@ -1,5 +1,7 @@
 package com.techietag.springaiagent.tools;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GetCurrentTime {
+
+    private static final Logger log = LoggerFactory.getLogger(GetCurrentTime.class);
 
     /**
      * Returns the current date and time for the specified IANA time zone identifier.
@@ -48,6 +52,7 @@ public class GetCurrentTime {
             name = "GetCurrentTimeTool")
     public String getCurrentTime(String country) {
 
+        log.info("GetCurrentTime tool invoked with country/region: {}", country);
         java.time.ZoneId zoneId;
         try {
             zoneId = java.time.ZoneId.of(country);

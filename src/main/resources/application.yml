@@ -1,0 +1,62 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  application:
+    name: spring-ai-agent
+
+  # Redis configuration for vector store
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+  ai:
+    # LLM provider configuration
+    mistralai:
+      api-key: ${MISTRAL_API_KEY}
+      chat:
+        options:
+          # temprature determines creativity. Min and Max values varies from model. For mistal it is 0.0 to 1.0
+          temperature: 0.2
+          #The maximum number of tokens to generate in the completion.
+          #The token count of your prompt plus max_tokens cannot exceed the model's context length.
+          # lower value will truncate the response
+          #max-tokens: 100
+          model: mistral-large-latest # use this model from misrtal.ai as some does not support tool calling
+
+      # embedding model configuration
+      embedding:
+        api-key: ${MISTRAL_API_KEY}
+        options:
+          model: mistral-embed
+
+      # vector store configuration
+    vectorstore:
+      redis:
+        initialize-schema: true
+        index-name: my-redis-index
+        prefix: sample
+
+     # Remote MCP Servers configuration
+    mcp:
+      client:
+        name: spring-ai-mcp-client
+        description: A Spring AI MCP client for github.
+        tool-callbacks-enabled: true
+        streamable-http:
+          connections:
+            github-mcp:
+              url: "https://api.githubcopilot.com/mcp"
+              api-key: ${GITHUB_API_KEY}
+
+
+
+# log request and response details for llm conversations
+logging:
+  level:
+    org:
+      springframework:
+        ai.chat.client.advisor.SimpleLoggerAdvisor: DEBUG
+
+

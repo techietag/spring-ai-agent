@@ -1,0 +1,88 @@
+@startuml
+' Project class diagram for com.techietag.springaiagent
+' Generated: 2026-01-04
+
+package "com.techietag.springaiagent" {
+  class SpringAiAgentApplication {
+    +main(args: String[]): void
+  }
+
+  class MCPClientCustomizaton {
+    -gitHubMcpUr: String
+    -githubApiKey: String
+    +requestCustomizer(): McpSyncHttpClientRequestCustomizer
+  }
+
+  class UserQuery <<record>> {
+    +query: String
+  }
+
+  class GetCurrentTime {
+    +getCurrentTime(country: String): String
+  }
+
+  class AgentController {
+    -chatClient: ChatClient
+    -getCurrentTimeTool: GetCurrentTime
+    -toolCallbackProvider: ToolCallbackProvider
+    -vectorStore: VectorStore
+    +agentCapabilities(): Map<String,Object>
+    +agentEndpoint(userQuery: UserQuery): String
+  }
+
+  class RAGIngestionController {
+    -ingestionService: IngestionService
+    +ingestData(fileName: String): String
+    +verifyIngestedData(userQuery: UserQuery): Object
+  }
+
+  class IngestionService {
+    -vectorStore: VectorStore
+    -resourceLoader: ResourceLoader
+    -faqPdf: Resource
+    +ingestPDF(fileName: String): String
+    +verifyIngestedData(query: String): String
+  }
+}
+
+' External/Framework interfaces & classes
+interface ChatClient
+interface ToolCallbackProvider
+interface VectorStore
+interface McpSyncHttpClientRequestCustomizer
+interface ResourceLoader
+class PagePdfDocumentReader
+class Document
+
+' Relationships
+AgentController --> ChatClient : uses
+AgentController --> GetCurrentTime : registers/uses
+AgentController --> ToolCallbackProvider : inspects
+AgentController --> VectorStore : uses
+
+RAGIngestionController --> IngestionService : delegates to
+IngestionService --> VectorStore : stores/retrieves
+IngestionService --> ResourceLoader : loads resources
+IngestionService --> PagePdfDocumentReader : reads PDFs
+PagePdfDocumentReader --> Document : produces
+
+MCPClientCustomizaton --> McpSyncHttpClientRequestCustomizer : produces
+
+GetCurrentTime ..> "java.time.ZonedDateTime" : uses
+
+' Notes
+note top of AgentController
+  AgentController builds ChatClient via ChatClient.Builder with:
+   - SimpleLoggerAdvisor
+   - QuestionAnswerAdvisor (vector store)
+   - default tools (GetCurrentTime)
+   - tool callbacks from ToolCallbackProvider
+end note
+
+note top of IngestionService
+  IngestionService reads PDF pages using PagePdfDocumentReader and
+  adds Document chunks to VectorStore; verifyIngestedData filters by score > 0.8
+end note
+
+@enduml
+

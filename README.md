@@ -56,10 +56,9 @@ Main components
 
 docker image pull xxxx/spring-ai-agent:latest
 
-docker container run -p 8080:8080  -e REDIS_HOST="REDIS-PORT" 
--e GITHUB-API-KEY="xxxx" -e MISTRAL-API-KEY="yyyy" xxxx/spring-ai-agent:latest
-``
-`
+docker container run -p 8080:8080  -e REDIS_HOST="REDIS-PORT" -e GITHUB-API-KEY="xxxx" -e MISTRAL-API-KEY="yyyy" xxxx/spring-ai-agent:latest
+```
+
 ### Sample Requests
 
 - Ingest a PDF document:

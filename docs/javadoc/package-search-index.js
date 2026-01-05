@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.techietag.springaiagent"},{"l":"com.techietag.springaiagent.config"},{"l":"com.techietag.springaiagent.controller"},{"l":"com.techietag.springaiagent.dto"},{"l":"com.techietag.springaiagent.service"},{"l":"com.techietag.springaiagent.tools"}];updateSearchResults();

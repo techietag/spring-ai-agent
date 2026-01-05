@@ -161,13 +161,6 @@ public class AgentController {
                 userMessage
         );
 
-        // Log configured tool callbacks for visibility (useful for debugging)
-        Arrays.stream(toolCallbackProvider.getToolCallbacks())
-                .forEach(tool -> {
-                    System.out.println("Tool Name: " + tool.getToolDefinition().name());
-                    System.out.println("Tool Description: " + tool.getToolDefinition().description());
-
-                });
 
         // Execute the chat client call and return the content portion of the response
         var requestSpec = chatClient.prompt(promptMessage);

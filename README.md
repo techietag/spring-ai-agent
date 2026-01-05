@@ -64,8 +64,9 @@ docker container run -p 8080:8080  -e REDIS_HOST="REDIS-PORT"
 
 - Ingest a PDF document:
   ```bash
-  curl -X GET http://localhost:8080/api/ingest/online_shopping_faq.pdf
-  ```  
+  curl --location 'http://localhost:8080/api/upload' \
+--form 'file=@"Bill.pdf"'
+  ```
 - Verify ingested data:
   ```bash
   curl -X POST http://localhost:8080/api/verify-ingest \

@@ -54,10 +54,10 @@ Main components
 
 ```docker
 
-docker image pull saurabhaga/spring-ai-agent:latest
+docker image pull xxxx/spring-ai-agent:latest
 
 docker container run -p 8080:8080  -e REDIS_HOST="REDIS-PORT" 
--e GITHUB-API-KEY="xxxx" -e MISTRAL-API-KEY="yyyy" saurabhaga/spring-ai-agent:latest
+-e GITHUB-API-KEY="xxxx" -e MISTRAL-API-KEY="yyyy" xxxx/spring-ai-agent:latest
 ``
 `
 ### Sample Requests
@@ -86,3 +86,139 @@ docker container run -p 8080:8080  -e REDIS_HOST="REDIS-PORT"
   ```
   
 
+```json
+{
+  "compatibilities": [
+    "EC2",
+    "FARGATE",
+    "MANAGED_INSTANCES"
+  ],
+  "containerDefinitions": [
+    {
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "GITHUB-API-KEY",
+          "value": "value of PAT"
+        },
+        {
+          "name": "MISTRAL-API-KEY",
+          "value": "api key of mistral ai"
+        },
+        {
+          "name": "REDIS_HOST",
+          "value": "localhost"
+        }
+      ],
+      "environmentFiles": [],
+      "essential": true,
+      "image": "1234567890.dkr.ecr.us-east-1.amazonaws.com/spring-ai-agent@sha256:3b83c737a6bbd9f4867f0da73f15598ed63da86067b59288f7892c79e60e7347",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/agent",
+          "awslogs-create-group": "true",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "mountPoints": [],
+      "name": "spring-ai-agent",
+      "portMappings": [
+        {
+          "appProtocol": "http",
+          "containerPort": 80,
+          "hostPort": 80,
+          "name": "spring-ai-agent-80-tcp",
+          "protocol": "tcp"
+        }
+      ],
+      "systemControls": [],
+      "ulimits": [],
+      "volumesFrom": []
+    },
+    {
+      "cpu": 0,
+      "environment": [],
+      "environmentFiles": [],
+      "essential": false,
+      "image": "redis:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/agent",
+          "awslogs-create-group": "true",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "memoryReservation": 1024,
+      "mountPoints": [],
+      "name": "redis",
+      "portMappings": [
+        {
+          "containerPort": 6379,
+          "hostPort": 6379,
+          "name": "redis-6379-tcp",
+          "protocol": "tcp"
+        }
+      ],
+      "systemControls": [],
+      "volumesFrom": []
+    }
+  ],
+  "cpu": "1024",
+  "enableFaultInjection": false,
+  "executionRoleArn": "arn:aws:iam::1234567890:role/ecsTaskExecutionRole",
+  "family": "agent",
+  "memory": "2048",
+  "networkMode": "awsvpc",
+  "placementConstraints": [],
+  "registeredAt": "2026-01-05T09:58:02.604Z",
+  "registeredBy": "arn:aws:iam::1234567890:user/xxxx",
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+    },
+    {
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "revision": 5,
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "status": "ACTIVE",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:1234567890:task-definition/agent:5",
+  "volumes": [],
+  "tags": []
+}
+
+```
